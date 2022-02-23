@@ -7,19 +7,19 @@
 # 3) Should handle games ending in wins/losses
 # 4) Should handle games ending in a tie
 
-first_player = input('Who moves first? ')
+# first_player = input('Who moves first? ')
 
-if first_player.upper() == 'X':
-    print('X moves first!')
-    second_player = 'O'
-elif first_player.upper() == 'O':
-    print('O moves first!')
-    second_player = 'X'
-else:
-    print('Unknown player')
+# if first_player.upper() == 'X':
+#     print('X moves first!')
+#     second_player = 'O'
+# elif first_player.upper() == 'O':
+#     print('O moves first!')
+#     second_player = 'X'
+# else:
+#     print('Unknown player')
     
 
-board = [[1,2,3],[1,2,3],[1,2,3]]
+board = [[[],[],[]],[1,2,3],[1,2,3]]
 
 # Prints the current board state
 def make_board():
@@ -29,15 +29,15 @@ def make_board():
         i += 1
 
 
-make_board()
+# make_board()
 
-move_row = int(input('Select row: ')) - 1
-move_column = int(input('Select column: ')) - 1
+# move_row = int(input('Select row: ')) - 1
+# move_column = int(input('Select column: ')) - 1
 
-if board[move_row][move_column] == 'X' or board[move_row][move_column] == 'O':
-    print('This space is occupied, select another')
-else:
-    board[move_row][move_column] = first_player.upper()
+# if board[move_row][move_column] == 'X' or board[move_row][move_column] == 'O':
+#     print('This space is occupied, select another')
+# else:
+#     board[move_row][move_column] = first_player.upper()
 
 make_board()
 
