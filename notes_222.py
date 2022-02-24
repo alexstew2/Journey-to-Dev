@@ -1,4 +1,4 @@
-
+board = [[[],[],[]],[[],[],[]],[[],[],[]]]
 for l, c, r in board:
    print(l, c, r)
  
@@ -41,7 +41,7 @@ for key, value in choices.items():
 # center-left [1, 0]
 # center [1, 1]
 
-choices.get()
+# choices.get()
 
 for key, value in choices.items():
    print(key)
@@ -57,3 +57,6 @@ for key, value in choices.items():
 # [1, 0]
 # center
 # [1, 1]
+
+for i in 1234:
+   print(i)
