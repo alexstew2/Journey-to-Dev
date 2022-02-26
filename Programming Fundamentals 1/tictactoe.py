@@ -48,6 +48,7 @@ for key in moves.keys():
 game_over = False
 while game_over == False:
     make_board()
+# TODO: Make move()
     move = input('Where would you like to play? ')
     if move in moves:
         coordinate = moves[move]
@@ -65,7 +66,7 @@ while game_over == False:
         print('Unknown move')
         continue
 
-# Check if game is won
+# Check if game is won TODO: Make game_state()
 # Rows Check
     for l, c, r in board:
         if l == c == r and l == 'X':
@@ -100,7 +101,7 @@ while game_over == False:
     elif board[0][2] == board[1][1] == board[2][0] and board[0][2] == 'O':
         game_over = True
 # Check for tie
-    if '_' not in board[0] and '_' not in board[1] and '_' not in board[2]:
+    if all('_' not in row for row in board):
         current_player = current_player + 100
         game_over = True
 make_board()
