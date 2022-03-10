@@ -7,108 +7,109 @@
 # Should handle games ending in wins/losses
 # Should handle games ending in a tie
 
-answer = False
-while answer == False: 
-    first_player = input('Who moves first? ')
-    first_player = first_player.upper()
-
-    if first_player == 'X':
-        print('X moves first!')
-        current_player = 0
-        answer = True
-    elif first_player == 'O':
-        print('O moves first!')
-        current_player = 1
-        answer = True
-    else:
-        print('Unknown player, please select X or O')
-
-board = [['_','_','_'],['_','_','_'],['_','_','_']]
-
-def make_board():
+def print_board():
+    """Displays the current board state"""
     for l, c, r in board:
         print(l, c, r)
 
-moves = {
-    'top-left': [0,0],
-    'top-center': [0,1],
-    'top-right': [0,2],
-    'cen-left': [1,0],
-    'center': [1,1],
-    'cen-right': [1,2],
-    'bot-left': [2,0],
-    'bot-center': [2,1],
-    'bot-right': [2,2],
-}
-
-print('List of moves: ')
-for key in moves.keys():
-    print(key)
-
-game_over = False
-while game_over == False:
-    make_board()
-# TODO: Make move()
-    move = input('Where would you like to play? ')
-    if move in moves:
-        coordinate = moves[move]
-        if board[coordinate[0]][coordinate[1]] != '_':
-            print('This space is already occupied')
-            continue
-        else:
-            if current_player == 0:
-                board[coordinate[0]][coordinate[1]] = 'X'
-                current_player =+ 1
-            elif current_player == 1:
-                board[coordinate[0]][coordinate[1]] = 'O'
-                current_player -= 1
-    else:
-        print('Unknown move')
-        continue
-
-# Check if game is won TODO: Make game_state()
-# Rows Check
+def game_on():
+    """Determines if the game has been won, tied, or is still in progress"""
+# Rows
     for l, c, r in board:
         if l == c == r and l == 'X':
-            game_over = True
+            return False
         elif l == c == r and l == 'O':
-            game_over = True
-        else:
-            continue
-# Columns Check
-#   Left Column
-    if board[0][0] == board[1][0] == board[2][0] and board[0][0] == 'X':
-        game_over = True
-    elif board[0][0] == board[1][0] == board[2][0] and board[0][0] == 'O':
-        game_over = True
-#   Center Column
-    elif board[0][1] == board[1][1] == board[2][1] and board[0][1] == 'X':
-        game_over = True
-    elif board[0][1] == board[1][1] == board[2][1] and board[0][1] == 'O':
-        game_over = True
-#   Right Column
-    elif board[0][2] == board[1][2] == board[2][2] and board[0][2] == 'X':
-        game_over = True
-    elif board[0][2] == board[1][2] == board[2][2] and board[0][2] == 'O':
-        game_over = True
-# Diagonals Check
-    elif board[0][0] == board[1][1] == board[2][2] and board[0][0] == 'X':
-        game_over = True
-    elif board[0][0] == board[1][1] == board[2][2] and board[0][0] == 'O':
-        game_over = True
-    elif board[0][2] == board[1][1] == board[2][0] and board[0][2] == 'X':
-        game_over = True
-    elif board[0][2] == board[1][1] == board[2][0] and board[0][2] == 'O':
-        game_over = True
-# Check for tie
-    if all('_' not in row for row in board):
-        current_player = current_player + 100
-        game_over = True
-make_board()
+            return False
+# Columns
+    t_board = zip(*board)
+    for l, c, r in t_board:
+        if l == c == r and l == 'X':
+            return False
+        elif l == c == r and l == 'O':
+            return False
 
-if current_player == 1:
-    print("X's Win!")
-elif current_player == 0:
-    print("O's Win!")
-else:
-    print("Tie!")
+# Diagonals
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] == 'X':
+        return False
+    elif board[0][0] == board[1][1] == board[2][2] and board[0][0] == 'O':
+        return False
+    elif board[0][2] == board[1][1] == board[2][0] and board[0][2] == 'X':
+        return False
+    elif board[0][2] == board[1][1] == board[2][0] and board[0][2] == 'O':
+        return False
+# Tie
+    if all('_' not in row for row in board):
+        return False
+    return True
+
+def move(current_player):
+    """Prompts user for a move, checks for validity, then executes the move"""
+    space = input('Where would you like to play? ')
+    if space not in moves:
+        print('Unknown Move')
+        return False
+
+    coord = moves[space]
+    if board[coord[0]][coord[1]] != '_':
+        print('This space is already occupied.')
+        return False
+
+    board[coord[0]][coord[1]] = current_player
+    return True
+
+# TODO switch X or O
+def switch_player(player):
+    """Alternates player"""
+    if player == 'X':
+        player = 'O'
+    else:
+        player = 'X'
+    return player
+
+if __name__ == '__main__':
+    need_answer = True
+    while need_answer:
+        first_player = input('Who moves first? ')
+        upper_input = first_player.upper()
+        if upper_input == 'X' or upper_input == 'O':
+            print(f'{upper_input} moves first!')
+            current_player = upper_input
+            need_answer = False
+        else:
+            print('Unknown player, please select X or O')
+
+    board = [['_','_','_'],['_','_','_'],['_','_','_']]
+
+    moves = {
+        'top-l': [0,0],
+        'top-c': [0,1],
+        'top-r': [0,2],
+        'cen-l': [1,0],
+        'center': [1,1],
+        'cen-r': [1,2],
+        'bot-l': [2,0],
+        'bot-c': [2,1],
+        'bot-r': [2,2],
+    }
+
+    print('List of moves: ')
+    for key in moves.keys():
+        print(key)
+
+    while game_on():
+        print_board()
+        if move(current_player):
+            current_player = switch_player(current_player)
+        print(f'Current player is {current_player}')
+
+    current_player = switch_player(current_player)
+    print_board()
+
+    if all('_' not in row for row in board):
+        current_player = 'Tie'
+    if current_player == 'X':
+        print("X's Win!")
+    elif current_player == 'O':
+        print("O's Win!")
+    else:
+        print("Tie!")
